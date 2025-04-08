@@ -14,7 +14,7 @@ internal class Program
 
         foreach (var animal in animals)
         {
-            var lunch = new Dog(1.0);
+            var lunch = new Grass(1.0);
             animal.Eat(lunch);
             Console.WriteLine(animal);
         }
@@ -22,7 +22,22 @@ internal class Program
     }
 }
 
-abstract class Animal
+interface IEatable
+{
+    double Weight { get; }
+}
+
+class Grass : IEatable
+{
+    public Grass(double weight)
+    {
+        Weight = weight;
+    }
+
+    public double Weight { get; }
+}
+
+abstract class Animal : IEatable
 {
     public double Weight { get; set; }
 
@@ -32,7 +47,7 @@ abstract class Animal
         MakeSound();
     }
 
-    public virtual void Eat(Animal lunch)
+    public virtual void Eat(IEatable lunch)
     {
         Weight += lunch.Weight;
     }
@@ -71,7 +86,7 @@ class Dog : Animal
     { 
     }
 
-    public override void Eat(Animal lunch)
+    public override void Eat(IEatable lunch)
     {
         Weight += lunch.Weight * 0.8;
     }
